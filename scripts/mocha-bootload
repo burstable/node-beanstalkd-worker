@@ -1,0 +1,11 @@
+require('babel/register')({
+  optional: ['runtime', 'bluebirdCoroutines']
+});
+
+var chai = require('chai');
+
+chai.use(require('chai-as-promised'));
+chai.use(require('sinon-chai'));
+
+var Bluebird = require('bluebird')
+require('sinon-as-promised')(Bluebird);
