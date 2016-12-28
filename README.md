@@ -8,6 +8,10 @@
 
 ### Setup
 
+```sh
+npm install --save beanstalkd-worker
+```
+
 ```js
 import BeanstalkdWorker from 'beanstalkd-worker';
 
