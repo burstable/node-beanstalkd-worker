@@ -27,7 +27,8 @@ export default class Job {
   }
 
   async done(onPoll) {
-    let stats = await this.stats(true);
+    let stats = await this.stats(true).catch(console.error.bind(console));
+
 
     if (!stats) return null;
     if (onPoll) onPoll(stats.state);
