@@ -13,6 +13,7 @@ export default class Watcher {
     this.backoff = this.options.backoff || {};
     this.backoff.initial = this.backoff.initial || 60 * 1000;
     this.backoff.exponential = this.backoff.exponential || 1.5;
+    this.reconnectBackoff = this.options.reconnectBackoff || 1000;
   }
 
   async connection() {
@@ -72,7 +73,7 @@ export default class Watcher {
       this.debug(`reserve error ${err.toString()}`);
     } finally {
       this.$current = null;
-      this.loop();
+      setTimeout(() => this.loop(), this.reconnectBackoff);
     }
   }
 
