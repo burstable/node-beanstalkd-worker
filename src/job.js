@@ -1,7 +1,7 @@
-import Promise from 'bluebird';
-import debug from 'debug';
+const Promise = require('bluebird');
+const debug = require('debug');
 
-export default class Job {
+module.exports = class Job {
   constructor(worker, tube, id) {
     this.worker = worker;
     this.tube = tube;
