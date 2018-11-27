@@ -2,7 +2,7 @@ const spawn = require('./spawn');
 const Job = require('./job');
 const Tube = require('./tube');
 const _ = require('lodash');
-const Beanstalkd = require('beanstalkd');
+const Beanstalkd = require('beanstalkd').default;
 const Promise = require('bluebird');
 
 module.exports = class BeanstalkdWorker {
