@@ -1,7 +1,7 @@
 const Promise = require('bluebird');
 const debug = require('debug');
 
-module.exports = class Job {
+class Job {
   constructor(worker, tube, id) {
     this.worker = worker;
     this.tube = tube;
@@ -47,3 +47,5 @@ Job.status = function (stats) {
   if (!stats) return 'success';
   return stats.state;
 };
+
+module.exports = Job;
