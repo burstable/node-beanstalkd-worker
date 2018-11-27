@@ -1,9 +1,11 @@
-import Promise from 'bluebird';
-import {default as WatcherJob, DELAYED} from './watcher/job';
+const Promise = require('bluebird');
+const WatcherJob = require('./watcher/job');
+
+const { DELAYED } = WatcherJob;
 
 const RESERVE_TIMEOUT = 30 * 1000;
 
-export default class Watcher {
+module.exports = class Watcher {
   constructor(tube, index, handler, options = {}) {
     this.tube = tube;
     this.index = index;
