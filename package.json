@@ -31,6 +31,7 @@
   },
   "scripts": {
     "prepublish": "npm run check && npm run build",
+    "preinstall": "npm run build",
     "check": "npm run lint && npm run test:unit",
     "lint": "eslint src",
     "build": "rm -rf lib/* && babel src --ignore test --optional bluebirdCoroutines,runtime --out-dir lib",
