@@ -73,6 +73,7 @@ module.exports = class Watcher {
         await Promise.delay(500);
       }
       this.debug(`reserve error ${err.toString()}`);
+      throw err; // rethrow to allow a reconnection to happen
     } finally {
       this.$current = null;
       setTimeout(() => this.loop(), this.reconnectBackoff);
