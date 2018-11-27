@@ -1,6 +1,6 @@
-import Job from './job';
+const Job = require('./job');
 
-export default function spawn(worker, tube, payload, options = {}) {
+module.exports = function spawn(worker, tube, payload, options = {}) {
   if (!payload) {
     throw new Error('Job has no payload. Use an explicit empty payload ({}) if that is your intention');
   }
