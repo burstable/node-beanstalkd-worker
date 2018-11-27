@@ -1,11 +1,11 @@
-import spawn from './spawn';
-import Job from './job';
-import Tube from './tube';
-import _ from 'lodash';
-import Beanstalkd from 'beanstalkd';
-import Promise from 'bluebird';
+const spawn = require('./spawn');
+const Job = require('./job');
+const Tube = require('./tube');
+const _ = require('lodash');
+const Beanstalkd = require('beanstalkd');
+const Promise = require('bluebird');
 
-export default class BeanstalkdWorker {
+module.exports = class BeanstalkdWorker {
   constructor(host, port, options = {}) {
     this.host = host;
     this.port = port;
