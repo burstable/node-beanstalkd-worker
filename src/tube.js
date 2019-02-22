@@ -68,4 +68,4 @@ module.exports = class Tube {
   working() {
     return this.watchers.some(watcher => watcher.$current);
   }
-}
+};

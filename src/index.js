@@ -102,4 +102,4 @@ module.exports = class BeanstalkdWorker {
 
     return _.some(tubes, tube => tube.working());
   }
-}
+};

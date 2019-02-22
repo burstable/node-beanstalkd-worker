@@ -2,6 +2,7 @@ const Job = require('../../job');
 const _ = require('lodash');
 const Promise = require('bluebird');
 
+
 function defer() {
   var resolve, reject;
   var promise = new Promise(function () {
@@ -19,7 +20,7 @@ function defer() {
  * A job class with extra commands only available to the connection that has reserved the job
  */
 
-module.exports =class WatcherJob extends Job {
+module.exports = class WatcherJob extends Job {
   constructor(worker, tube, id, client) {
     super(worker, tube, id);
 
@@ -154,6 +155,6 @@ module.exports =class WatcherJob extends Job {
       this.debug(`failed to release: ${err.toString()}`);
     }
   }
-}
+};
 
 module.exports.DELAYED = 1;

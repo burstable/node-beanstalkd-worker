@@ -73,10 +73,11 @@ module.exports = class Watcher {
         await Promise.delay(500);
       }
       this.debug(`reserve error ${err.toString()}`);
-      throw err; // rethrow to allow a reconnection to happen
+      await Promise.delay(this.reconnectBackoff);
     } finally {
       this.$current = null;
-      setTimeout(() => this.loop(), this.reconnectBackoff);
+      this.loop();
+      // await Promise.resolve(setTimeout(() => this.loop(), this.reconnectBackoff);
     }
   }
 
@@ -129,4 +130,4 @@ module.exports = class Watcher {
     // Destroy job from beanstalkd if we completed successfully
     await job._destroy();
   }
-}
+};

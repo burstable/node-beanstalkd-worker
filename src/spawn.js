@@ -38,4 +38,4 @@ module.exports = function spawn(worker, tube, payload, options = {}) {
            tube.debug('spawned job: ' + id);
            return new Job(worker, tube, id);
          });
-}
+};
