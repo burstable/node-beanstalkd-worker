@@ -2,7 +2,7 @@
   "name": "beanstalkd-worker",
   "version": "1.2.1",
   "description": "High level library for running beanstalkd workers in Node.js",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "dependencies": {
     "babel-runtime": "^5.8.25",
     "beanstalkd": "^2.2.5",

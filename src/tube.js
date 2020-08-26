@@ -1,8 +1,8 @@
-import Watcher from './tube/watcher';
-import debug from 'debug';
-import Promise from 'bluebird';
+const Watcher = require('./tube/watcher');
+const debug = require('debug');
+const Promise = require('bluebird');
 
-export default class Tube {
+module.exports = class Tube {
   constructor(worker, name) {
     if (typeof name !== 'string') throw new Error('Tube name must be a string');
 
@@ -68,4 +68,4 @@ export default class Tube {
   working() {
     return this.watchers.some(watcher => watcher.$current);
   }
-}
+};

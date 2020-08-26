@@ -2,7 +2,7 @@ var chai = require('chai')
   , expect = chai.expect
   , sinon = require('sinon')
   , Promise = require('bluebird')
-  , WatcherJob = require('tube/watcher/job').default
+  , WatcherJob = require('tube/watcher/job')
   , Watcher = require('tube/watcher');
 
 describe('Watcher', function () {
@@ -20,7 +20,7 @@ describe('Watcher', function () {
       this.destroyStub = this.sinon.stub(WatcherJob.prototype, '_destroy').resolves();
       this.releaseStub = this.sinon.stub(WatcherJob.prototype, '_release').resolves();
 
-      this.handler = this.sinon.stub().resolves(),
+      this.handler = this.sinon.stub().resolves();
       this.watcher = new Watcher({burstable: {}}, 0, this.handler, {
         maxTries: 3
       });

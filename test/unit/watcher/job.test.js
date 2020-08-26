@@ -2,7 +2,7 @@ var chai = require('chai')
   , expect = chai.expect
   , sinon = require('sinon')
   , Promise = require('bluebird')
-  , WatcherJob = require('tube/watcher/job').default;
+  , WatcherJob = require('tube/watcher/job');
 
 describe('WatcherJob', function () {
   beforeEach(function () {

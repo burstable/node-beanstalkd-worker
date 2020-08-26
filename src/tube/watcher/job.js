@@ -1,6 +1,7 @@
-import Job from '../../job';
-import _ from 'lodash';
-import Promise from 'bluebird';
+const Job = require('../../job');
+const _ = require('lodash');
+const Promise = require('bluebird');
+
 
 function defer() {
   var resolve, reject;
@@ -15,13 +16,11 @@ function defer() {
   };
 }
 
-export const DELAYED = 1;
-
 /*
  * A job class with extra commands only available to the connection that has reserved the job
  */
 
-export default class WatcherJob extends Job {
+module.exports = class WatcherJob extends Job {
   constructor(worker, tube, id, client) {
     super(worker, tube, id);
 
@@ -156,4 +155,6 @@ export default class WatcherJob extends Job {
       this.debug(`failed to release: ${err.toString()}`);
     }
   }
-}
+};
+
+module.exports.DELAYED = 1;

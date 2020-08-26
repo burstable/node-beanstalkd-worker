@@ -1,9 +1,11 @@
-import Promise from 'bluebird';
-import {default as WatcherJob, DELAYED} from './watcher/job';
+const Promise = require('bluebird');
+const WatcherJob = require('./watcher/job');
+
+const { DELAYED } = WatcherJob;
 
 const RESERVE_TIMEOUT = 30 * 1000;
 
-export default class Watcher {
+module.exports = class Watcher {
   constructor(tube, index, handler, options = {}) {
     this.tube = tube;
     this.index = index;
@@ -13,6 +15,7 @@ export default class Watcher {
     this.backoff = this.options.backoff || {};
     this.backoff.initial = this.backoff.initial || 60 * 1000;
     this.backoff.exponential = this.backoff.exponential || 1.5;
+    this.reconnectBackoff = this.options.reconnectBackoff || 1000;
   }
 
   async connection() {
@@ -70,9 +73,11 @@ export default class Watcher {
         await Promise.delay(500);
       }
       this.debug(`reserve error ${err.toString()}`);
+      await Promise.delay(this.reconnectBackoff);
     } finally {
       this.$current = null;
       this.loop();
+      // await Promise.resolve(setTimeout(() => this.loop(), this.reconnectBackoff);
     }
   }
 
@@ -125,4 +130,4 @@ export default class Watcher {
     // Destroy job from beanstalkd if we completed successfully
     await job._destroy();
   }
-}
+};
