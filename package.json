@@ -8,7 +8,7 @@
     "beanstalkd": "^2.2.5",
     "bluebird": "~2.5.3",
     "debug": "^2.2.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.17.19",
     "generic-promise-pool": "1.1.0"
   },
   "devDependencies": {
