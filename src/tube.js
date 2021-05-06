@@ -49,8 +49,13 @@ export default class Tube {
     this.running = true;
 
     this.debug('Starting watchers');
+
+    const onError = this.worker.options.onError;
+
     this.watchers.forEach(function (watcher) {
-      watcher.start();
+      watcher.start({
+        onError,
+      });
     });
   }
 

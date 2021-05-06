@@ -38,15 +38,15 @@ export default class Watcher {
     return this.$current;
   }
 
-  start() {
-    this.loop();
+  start({ onError }) {
+    this.loop({ onError });
   }
 
   async stop() {
     await Promise.resolve(this.current()).reflect();
   }
 
-  async loop() {
+  async loop({ onError }) {
     if (!this.tube.running) return;
 
     try {
@@ -69,10 +69,14 @@ export default class Watcher {
       if (err.message === 'DEADLINE_SOON') {
         await Promise.delay(500);
       }
+      if (err.message.includes('ECONNREFUSED')) {
+        onError(err);
+        await Promise.delay(500);
+      }
       this.debug(`reserve error ${err.toString()}`);
     } finally {
       this.$current = null;
-      this.loop();
+      this.loop({ onError });
     }
   }
 
