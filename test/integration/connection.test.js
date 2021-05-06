@@ -1,6 +1,4 @@
-var chai = require('chai')
-  , expect = chai.expect;
-
+import { expect } from 'chai';
 import BeanstalkdWorker from '../../src/index';
 
 describe('Connection', () => {
