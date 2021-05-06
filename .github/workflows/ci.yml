@@ -27,9 +27,6 @@ jobs:
       - name: Start beanstalkd server
         run: docker exec ${{job.services.beanstalkd.id}} sh -c "beanstalkd -p 11301 -z 5000000 &"
 
-      - name: docker ps
-        run: docker ps
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -55,8 +52,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test unit
+      - name: Test
         run: npm run test
         env:
           BEANSTALKD_PORT_11300_TCP_ADDR: "127.0.0.1"
           BEANSTALKD_PORT_11300_TCP_PORT: "11301"
+
+      - name: Build
+        run: npm run build
