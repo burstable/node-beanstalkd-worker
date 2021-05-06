@@ -17,6 +17,7 @@ export default class Tube {
   }
 
   async connection(id) {
+    console.info('Creating connection...');
     let client = await this.worker.connection(`${this.name}/${id}`);
 
     if (id === 'command' && client.using !== this.name) {
