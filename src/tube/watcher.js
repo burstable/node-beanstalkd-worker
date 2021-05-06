@@ -38,15 +38,15 @@ export default class Watcher {
     return this.$current;
   }
 
-  start({ onError }) {
-    this.loop({ onError });
+  start({ onConnectionError } = {}) {
+    this.loop({ onConnectionError });
   }
 
   async stop() {
     await Promise.resolve(this.current()).reflect();
   }
 
-  async loop({ onError }) {
+  async loop({ onConnectionError } = {}) {
     if (!this.tube.running) return;
 
     try {
@@ -70,13 +70,15 @@ export default class Watcher {
         await Promise.delay(500);
       }
       if (err.message.includes('ECONNREFUSED')) {
-        onError(err);
+        if (onConnectionError) {
+          onConnectionError(err);
+        }
         await Promise.delay(500);
       }
       this.debug(`reserve error ${err.toString()}`);
     } finally {
       this.$current = null;
-      this.loop({ onError });
+      this.loop({ onConnectionError });
     }
   }
 
