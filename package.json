@@ -38,6 +38,7 @@
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "NODE_PATH=src NODE_ENV=test mocha $npm_package_options_mocha test/unit/*.test.js test/unit/**/*.test.js",
     "test:integration": "NODE_ENV=test mocha $npm_package_options_mocha test/integration/*.test.js test/integration/**/*.test.js",
+    "test:integration:docker": "docker-compose up -d && npm run test:integration && docker-compose down",
     "restart-beanstalkd": "docker-compose kill beanstalkd && docker-compose start beanstalkd"
   },
   "repository": {

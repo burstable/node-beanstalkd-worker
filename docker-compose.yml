@@ -1,0 +1,5 @@
+beanstalkd:
+  image: schickling/beanstalkd
+  entrypoint: ["beanstalkd", "-p", "11300", "-z", "5000000"]
+  ports:
+    - 11300:11300
