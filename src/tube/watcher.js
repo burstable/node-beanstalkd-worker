@@ -69,7 +69,7 @@ export default class Watcher {
       if (err.message === 'DEADLINE_SOON') {
         await Promise.delay(500);
       }
-      if (err.message.includes('ECONNREFUSED')) {
+      if (err.message.includes('ECONNREFUSED') || err.message.startsWith('getaddrinfo ENOTFOUND')) {
         if (onConnectionError) {
           onConnectionError(err, this.tube);
         }
