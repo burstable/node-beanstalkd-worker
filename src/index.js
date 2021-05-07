@@ -21,7 +21,13 @@ export default class BeanstalkdWorker {
       this.connections[id] = (new Beanstalkd(this.host, this.port)).connect();
     }
 
-    let client = await Promise.resolve(this.connections[id]).timeout(10000, 'timed out connecting to beanstalkd (10000ms)');
+    let client = await Promise.resolve(this.connections[id])
+      .timeout(10000, 'timed out connecting to beanstalkd (10000ms)')
+      .catch(error => {
+        this.connections[id] = undefined;
+
+        throw error;
+      });
 
     if (client.closed) {
       this.connections[id] = undefined;
