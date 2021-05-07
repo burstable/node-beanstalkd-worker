@@ -71,7 +71,7 @@ export default class Watcher {
       }
       if (err.message.includes('ECONNREFUSED')) {
         if (onConnectionError) {
-          onConnectionError(err);
+          onConnectionError(err, this.tube);
         }
         await Promise.delay(500);
       }
