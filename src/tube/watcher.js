@@ -73,7 +73,7 @@ export default class Watcher {
         if (onConnectionError) {
           onConnectionError(err, this.tube);
         }
-        await Promise.delay(500);
+        await Promise.delay(2000);
       }
       this.debug(`reserve error ${err.toString()}`);
     } finally {
