@@ -35,7 +35,7 @@
     "cover": "cross-env NODE_PATH=src NODE_ENV=test istanbul cover _mocha -- --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/unit/*.test.js test/unit/**/*.test.js",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "cross-env NODE_PATH=src NODE_ENV=test mocha --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/unit/*.test.js test/unit/**/*.test.js",
-    "test:integration": "NODE_ENV=test mocha --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/integration/*.test.js test/integration/**/*.test.js",
+    "test:integration": "cross-env NODE_ENV=test mocha --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/integration/*.test.js test/integration/**/*.test.js",
     "test:integration:docker": "docker-compose up -d && npm run test:integration && docker-compose down",
     "restart-beanstalkd": "docker-compose kill beanstalkd && docker-compose start beanstalkd"
   },
