@@ -17,6 +17,7 @@ export default class Tube {
   }
 
   async connection(id) {
+    debug('Creating connection...');
     let client = await this.worker.connection(`${this.name}/${id}`);
 
     if (id === 'command' && client.using !== this.name) {
@@ -48,8 +49,13 @@ export default class Tube {
     this.running = true;
 
     this.debug('Starting watchers');
+
+    const onConnectionError = this.worker.options.onConnectionError;
+
     this.watchers.forEach(function (watcher) {
-      watcher.start();
+      watcher.start({
+        onConnectionError,
+      });
     });
   }
 

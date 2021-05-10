@@ -21,6 +21,29 @@ const worker = new BeanstalkdWorker(
 );
 ```
 
+### Handling connection errors
+
+It's possible to add a `onConnectionError` callback when creating the `beanstalkd-worker`. 
+This callback is called when the connection to the queue fails.
+
+```js
+const worker = new BeanstalkdWorker(host, port, {
+  onConnectionError: (err, tube) => {
+    // When there is a connection error, you can stop the watchers
+    tube.stop();
+
+    // Eventually, you can restart the watchers
+    tube.start();
+
+    // You can access also the complete worker:
+    tube.worker.stop();
+
+    // Call process.exit if you want to exit your service completly
+    process.exit(1);
+  },
+});
+```
+
 ### Spawning jobs
 
 ```js

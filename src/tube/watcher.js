@@ -38,15 +38,15 @@ export default class Watcher {
     return this.$current;
   }
 
-  start() {
-    this.loop();
+  start({ onConnectionError } = {}) {
+    this.loop({ onConnectionError });
   }
 
   async stop() {
     await Promise.resolve(this.current()).reflect();
   }
 
-  async loop() {
+  async loop({ onConnectionError } = {}) {
     if (!this.tube.running) return;
 
     try {
@@ -69,10 +69,16 @@ export default class Watcher {
       if (err.message === 'DEADLINE_SOON') {
         await Promise.delay(500);
       }
+      if (err.message.includes('ECONNREFUSED') || err.message.startsWith('getaddrinfo ENOTFOUND')) {
+        if (onConnectionError) {
+          onConnectionError(err, this.tube);
+        }
+        await Promise.delay(2000);
+      }
       this.debug(`reserve error ${err.toString()}`);
     } finally {
       this.$current = null;
-      this.loop();
+      this.loop({ onConnectionError });
     }
   }
 

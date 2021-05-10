@@ -1,0 +1,62 @@
+name: CI
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 16.x]
+
+    # There is no way to pass the '-z' option to the entrypoint override using GitHub Actions:
+    # @see: https://github.community/t/how-do-i-properly-override-a-service-entrypoint/17435
+    # However, we make use of this service and start another beanstalkd server in this service
+    # using docker exec. The '-z' option is needed to test large jobs.
+    services:
+      beanstalkd:
+        image: schickling/beanstalkd
+        ports:
+          - 11300:11300
+          - 11301:11301
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start beanstalkd server
+        run: docker exec ${{job.services.beanstalkd.id}} sh -c "beanstalkd -p 11301 -z 5000000 &"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Using fixed npm@7.10.0 because it's the latest version where Node 9 works on
+      - name: Ensure npm version 7.10.0
+        run: npm install -g npm@7.10.0
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+        env:
+          BEANSTALKD_PORT_11300_TCP_ADDR: "127.0.0.1"
+          BEANSTALKD_PORT_11300_TCP_PORT: "11301"
+
+      - name: Build
+        run: npm run build

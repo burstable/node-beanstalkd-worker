@@ -1,10 +1,5 @@
-worker:
-  build: .
-  links:
-   - beanstalkd
-  volumes:
-    - .:/src
-
 beanstalkd:
   image: schickling/beanstalkd
-  command: beanstalkd -p 11300 -z 5000000
+  entrypoint: ["beanstalkd", "-p", "11300", "-z", "5000000"]
+  ports:
+    - 11300:11300

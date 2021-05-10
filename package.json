@@ -1,6 +1,6 @@
 {
   "name": "beanstalkd-worker",
-  "version": "1.2.1",
+  "version": "1.3.1",
   "description": "High level library for running beanstalkd workers in Node.js",
   "main": "lib/index.js",
   "dependencies": {
@@ -37,8 +37,8 @@
     "cover": "NODE_PATH=src NODE_ENV=test istanbul cover _mocha -- $npm_package_options_mocha test/unit/*.test.js test/unit/**/*.test.js",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "NODE_PATH=src NODE_ENV=test mocha $npm_package_options_mocha test/unit/*.test.js test/unit/**/*.test.js",
-    "test:integration": "docker-compose run --rm worker /bin/sh -c \"npm run test:integration:raw\"",
-    "test:integration:raw": "NODE_ENV=test mocha $npm_package_options_mocha test/integration/*.test.js test/integration/**/*.test.js",
+    "test:integration": "NODE_ENV=test mocha $npm_package_options_mocha test/integration/*.test.js test/integration/**/*.test.js",
+    "test:integration:docker": "docker-compose up -d && npm run test:integration && docker-compose down",
     "restart-beanstalkd": "docker-compose kill beanstalkd && docker-compose start beanstalkd"
   },
   "repository": {
