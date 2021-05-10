@@ -18,6 +18,7 @@
     "chai": "^2.3.0",
     "chai-as-promised": "^5.0.0",
     "chai-datetime": "^1.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "^1.5.1",
     "istanbul": "^0.3.18",
     "mocha": "^2.2.1",
@@ -26,18 +27,15 @@
     "sinon-as-promised": "^4.0.0",
     "sinon-chai": "^2.8.0"
   },
-  "options": {
-    "mocha": "--require scripts/mocha-bootload --check-leaks --colors --reporter spec"
-  },
   "scripts": {
     "prepublish": "npm run check && npm run build",
     "check": "npm run lint && npm run test:unit",
     "lint": "eslint src",
     "build": "rm -rf lib/* && babel src --ignore test --optional bluebirdCoroutines,runtime --out-dir lib",
-    "cover": "NODE_PATH=src NODE_ENV=test istanbul cover _mocha -- $npm_package_options_mocha test/unit/*.test.js test/unit/**/*.test.js",
+    "cover": "cross-env NODE_PATH=src NODE_ENV=test istanbul cover _mocha -- --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/unit/*.test.js test/unit/**/*.test.js",
     "test": "npm run test:unit && npm run test:integration",
-    "test:unit": "NODE_PATH=src NODE_ENV=test mocha $npm_package_options_mocha test/unit/*.test.js test/unit/**/*.test.js",
-    "test:integration": "NODE_ENV=test mocha $npm_package_options_mocha test/integration/*.test.js test/integration/**/*.test.js",
+    "test:unit": "cross-env NODE_PATH=src NODE_ENV=test mocha --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/unit/*.test.js test/unit/**/*.test.js",
+    "test:integration": "NODE_ENV=test mocha --require scripts/mocha-bootload --check-leaks --colors --reporter spec test/integration/*.test.js test/integration/**/*.test.js",
     "test:integration:docker": "docker-compose up -d && npm run test:integration && docker-compose down",
     "restart-beanstalkd": "docker-compose kill beanstalkd && docker-compose start beanstalkd"
   },
