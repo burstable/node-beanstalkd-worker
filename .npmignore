@@ -28,3 +28,6 @@ node_modules
 
 # Source target
 src
+test
+.github
+.eslintrc
