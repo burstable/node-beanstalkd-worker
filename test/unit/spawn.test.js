@@ -34,9 +34,7 @@ describe('spawn', function () {
     actual = spawn(worker, tube, values);
 
     expect(worker.tube).to.have.been.calledWith(tube);
-    expect(tube.command).to.have.been.calledWith('put', 1000, 0, 600, JSON.stringify({
-      payload: values
-    }));
+    expect(tube.command).to.have.been.calledWith('put', 1000, 0, 600, JSON.stringify(values));
 
     return actual.then(function (job) {
       expect(job).to.be.an.instanceOf(Job);

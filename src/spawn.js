@@ -11,7 +11,6 @@ export default function spawn(worker, tube, payload, options = {}) {
 
   if (options.timeout !== undefined) {
     timeout = options.timeout;
-    delete options.timeout;
   }
 
   if (timeout < 3000) {
@@ -20,20 +19,16 @@ export default function spawn(worker, tube, payload, options = {}) {
 
   if (options.delay !== undefined) {
     delay = options.delay;
-    delete options.delay;
   }
 
   if (options.priority !== undefined) {
     priority = options.priority;
-    delete options.priority;
   }
-
-  options.payload = payload;
 
   tube = worker.tube(tube);
 
   return tube
-         .command('put', priority, delay / 1000, timeout / 1000, JSON.stringify(options))
+         .command('put', priority, delay / 1000, timeout / 1000, JSON.stringify(payload))
          .then(function (id) {
            tube.debug('spawned job: ' + id);
            return new Job(worker, tube, id);
