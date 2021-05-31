@@ -1,8 +1,7 @@
-var chai = require('chai')
-  , expect = chai.expect
-  , sinon = require('sinon')
-  , Promise = require('bluebird')
-  , Watcher = require('tube/watcher');
+import { expect } from 'chai';
+import sinon from 'sinon';
+import Promise from 'bluebird';
+import Watcher from 'tube/watcher';
 
 describe('Watcher', function () {
   describe('stop', function () {

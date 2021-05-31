@@ -133,7 +133,7 @@ export default class WatcherJob extends Job {
   async _bury() {
     try {
       await this.client.bury(this.id, 0);
-      this.debug(`buried`);
+      this.debug('buried');
     } catch (err) {
       this.debug(`failed to bury: ${err.toString()}`);
     }

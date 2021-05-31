@@ -64,14 +64,16 @@ export default class Tube {
 
     this.debug('Stopping watchers');
 
-    await Promise.all(this.watchers.map(async (watcher) => {
-      await watcher.stop();
-    }));
+    await Promise.all(
+      this.watchers.map(async (watcher) => {
+        await watcher.stop();
+      })
+    );
 
     this.debug('Watchers stopped');
   }
 
   working() {
-    return this.watchers.some(watcher => watcher.$current);
+    return this.watchers.some((watcher) => watcher.$current);
   }
 }
