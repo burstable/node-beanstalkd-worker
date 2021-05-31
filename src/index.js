@@ -18,7 +18,7 @@ export default class BeanstalkdWorker {
 
   async connection(id) {
     if (!this.connections[id]) {
-      this.connections[id] = (new Beanstalkd(this.host, this.port)).connect();
+      this.connections[id] = new Beanstalkd(this.host, this.port).connect();
     }
 
     let client = await Promise.resolve(this.connections[id])

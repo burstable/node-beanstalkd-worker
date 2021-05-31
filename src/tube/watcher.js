@@ -108,7 +108,7 @@ export default class Watcher {
       if (result === DELAYED) {
         return;
       }
-      job.debug(`completed`);
+      job.debug('completed');
     } catch (err) {
       if (tries >= this.tries) {
         await job._bury();

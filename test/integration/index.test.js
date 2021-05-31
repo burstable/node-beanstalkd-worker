@@ -196,7 +196,7 @@ describe('BeanstalkdWorker', function () {
 
     let tube = Math.random().toString()
       , handleLog = this.sinon.stub()
-      , error = new Error('Arf!')
+      , error = new Error('Arf!');
 
     this.worker.handle(tube, function (payload) {
       return Promise.reject(error);

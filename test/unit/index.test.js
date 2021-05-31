@@ -1,8 +1,7 @@
-var chai = require('chai')
-  , expect = chai.expect
-  , sinon = require('sinon')
-  , Promise = require('bluebird')
-  , Worker = require('index');
+import { expect } from 'chai';
+import sinon from 'sinon';
+import Promise from 'bluebird';
+import Worker from '../../src/index';
 
 describe('Worker', function () {
   beforeEach(function () {
@@ -19,9 +18,9 @@ describe('Worker', function () {
       this.sinon.spy(Promise, 'all');
 
       this.worker.tubes = {
-        a: {stop: this.sinon.stub().resolves()},
-        b: {stop: this.sinon.stub().resolves()},
-        c: {stop: this.sinon.stub().resolves()}
+        a: { stop: this.sinon.stub().resolves() },
+        b: { stop: this.sinon.stub().resolves() },
+        c: { stop: this.sinon.stub().resolves() },
       };
 
       await this.worker.stopTubes();
@@ -31,7 +30,9 @@ describe('Worker', function () {
       expect(this.worker.tubes.c.stop).to.have.been.calledOnce;
 
       expect(Promise.all).to.have.been.calledOnce;
-      expect(Promise.all.getCall(0).args[0].length).to.equal(Object.keys(this.worker.tubes).length);
+      expect(Promise.all.getCall(0).args[0].length).to.equal(
+        Object.keys(this.worker.tubes).length
+      );
     });
   });
 });

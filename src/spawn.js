@@ -33,9 +33,9 @@ export default function spawn(worker, tube, payload, options = {}) {
   tube = worker.tube(tube);
 
   return tube
-         .command('put', priority, delay / 1000, timeout / 1000, JSON.stringify(options))
-         .then(function (id) {
-           tube.debug('spawned job: ' + id);
-           return new Job(worker, tube, id);
-         });
+    .command('put', priority, delay / 1000, timeout / 1000, JSON.stringify(options))
+    .then(function (id) {
+      tube.debug('spawned job: ' + id);
+      return new Job(worker, tube, id);
+    });
 }

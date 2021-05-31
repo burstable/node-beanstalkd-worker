@@ -1,17 +1,20 @@
-var chai = require('chai')
-  , expect = chai.expect
-  , sinon = require('sinon')
-  , Promise = require('bluebird')
-  , Watcher = require('tube/watcher');
+import { expect } from 'chai';
+import sinon from 'sinon';
+import Promise from 'bluebird';
+import Watcher from 'tube/watcher';
 
 describe('Watcher', function () {
   describe('loop', function () {
     beforeEach(function () {
       this.sinon = sinon.sandbox.create();
 
-      this.watcher = new Watcher({running: true, debug: function () {}}, 0, function () {});
+      this.watcher = new Watcher(
+        { running: true, debug: function () {} },
+        0,
+        function () {}
+      );
       this.connection = {
-        reserveWithTimeout: this.sinon.stub().resolves()
+        reserveWithTimeout: this.sinon.stub().resolves(),
       };
 
       this.sinon.stub(this.watcher, 'run');
@@ -24,13 +27,13 @@ describe('Watcher', function () {
 
     it('should wait for run() and loop again', function () {
       var resolve, reject;
-      var promise = new Promise(function(_resolve, _reject) {
+      var promise = new Promise(function (_resolve, _reject) {
         resolve = _resolve;
         reject = _reject;
       });
 
-      var jobId = Math.random().toString()
-        , options = {};
+      var jobId = Math.random().toString(),
+        options = {};
 
       this.connection.reserveWithTimeout.resolves([jobId, options]);
       this.watcher.run.returns(promise);
@@ -40,17 +43,19 @@ describe('Watcher', function () {
       this.sinon.stub(this.watcher, 'loop');
 
       // Let the event loop tick a few times
-      return Promise.delay(50).then(() => {
-        expect(this.watcher.current()).to.equal(promise);
-        resolve();
-      }).then(() => {
-        return actual.then(() => {
-          expect(this.watcher.connection).to.have.been.calledOnce;
-          expect(this.connection.reserveWithTimeout).to.have.been.calledOnce;
-          expect(this.watcher.run).to.have.been.calledWith(jobId, options);
-          expect(this.watcher.loop).to.have.been.calledOnce;
+      return Promise.delay(50)
+        .then(() => {
+          expect(this.watcher.current()).to.equal(promise);
+          resolve();
+        })
+        .then(() => {
+          return actual.then(() => {
+            expect(this.watcher.connection).to.have.been.calledOnce;
+            expect(this.connection.reserveWithTimeout).to.have.been.calledOnce;
+            expect(this.watcher.run).to.have.been.calledWith(jobId, options);
+            expect(this.watcher.loop).to.have.been.calledOnce;
+          });
         });
-      });
     });
   });
 });
